@@ -41,7 +41,8 @@ h1,h2,h3,h4,h5,h6 {
 .container1{
     width: 100%;
     max-width: 500px;
-    margin: 45px auto;
+    margin-top: 40px;
+    margin-bottom: 15px;
 }
 
 .row{
@@ -139,6 +140,14 @@ h1,h2,h3,h4,h5,h6 {
     margin-top: 30px;
     margin-bottom: 10px;
     margin-left: 40px;
+}
+
+.error_text{
+    line-height: 1;
+    font-size: 14px;
+    color: #ff0000;
+    margin-left: 40px;
+    margin-top: 5px;
 }
 
 .textbox{
@@ -269,7 +278,7 @@ input:checked + .slider:before {
     text-align: center;
 }
 
-.btnlogin:hover{
+.btnlogin.hover:hover{
     background-color: #325ff3;
     border-color: #325ff3;
 }

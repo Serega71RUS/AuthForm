@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <link rel="stylesheet" href="assets/css/style.css">
         <title>Авторизация</title>
+        
     </head>
     <body>
         <div class="container">
@@ -17,9 +18,9 @@
                     </div>
                     <div class="auth__inner">
                         <h1 class="logintxt">E-mail</h1>
-                        <input class="textbox" type="text">
+                        <input data-login class="textbox" type="text">
                         <h1 class="logintxt">Пароль</h1>
-                        <input class="textbox" type="password">
+                        <input data-password class="textbox" type="password">
                         <div class="row">
                             <label class="switch">
                                 <input type="checkbox">
@@ -32,12 +33,13 @@
                                 </span>
                             </label>
                         </div>
-                        <a class="btnlogin" href="#">Войти</a>
+                        <button class="btnlogin hover" href="#">Войти</button>
                         <div class="line"></div>
                         <a class="btnpass" href="#">Забыл пароль</a>
                     <div>
                 </div>
             </div>
         </div>
+        <script src="js/index.js"></script>
     </body>
 </html>
