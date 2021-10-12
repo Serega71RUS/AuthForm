@@ -3,63 +3,61 @@
 window.addEventListener('DOMContentLoaded', function() { //() =>
 
     //Login
-    const txtBoxEmail = document.querySelector('[data-login]');
-    const txtBoxPass = document.querySelector('[data-password]');
-    const btn = document.querySelector('.btnlogin');
-    const parent = document.querySelector('.auth__inner');
-    let chEmail = false;
-    let chPass = false;
+    const parent = document.querySelector('.auth__inner'); //IE
+    const btn = parent.querySelector('.btnlogin');
+    let ch = {
+        Email: false,
+        Pass: false,
+    };
 
-    //Проверка Email
-    function addErrorEmail() {
+    //Добавление ошибки
+    function AddErrText(id, text, txtBox, func) {
         const element = document.createElement('h1');
         element.classList.add('error_text');
-        element.id = "errEmail"; //IE
-        element.textContent = "Вы ввели неккоректный адрес электронной почты";
-        txtBoxEmail.addEventListener('keyup', function(e) { //(e) =>
-            let reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-            if(!reg.test(e.target.value)){
-                //txtBoxEmail.after(element);
-                txtBoxEmail.insertAdjacentElement('afterend', element);
-                chEmail = false;
+        element.id = id; //IE
+        element.textContent = text;
+        txtBox.addEventListener('keyup', function(e) {func(e, element, id, txtBox)});
+    }
+    
+
+
+    //Проверка Email
+    function checkEmail(e, element, id, txtBox){
+        let reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+        if(!reg.test(e.target.value)){
+            //txtBoxEmail.after(element);
+            txtBox.insertAdjacentElement('afterend', element);
+            ch.Email = false;
+            BtnLogin();
+        }
+        else{
+            if(txtBox.nextElementSibling.id == id){
+                //txtBoxEmail.nextElementSibling.remove();
+                const el = document.getElementById(id); //IE
+                parent.removeChild(el); //IE
+                ch.Email = true;
                 BtnLogin();
             }
-            else{
-                if(txtBoxEmail.nextElementSibling.className == "error_text"){
-                    //txtBoxEmail.nextElementSibling.remove();
-                    const el = document.getElementById('errEmail'); //IE
-                    parent.removeChild(el); //IE
-                    chEmail = true;
-                    BtnLogin();
-                }
-            }
-        });
+        }
     }
 
     //Проверка пароля
-    function addErrorPass() {
-        const element = document.createElement('h1');
-        element.classList.add('error_text');
-        element.id = "errPass"; //IE
-        element.textContent = "Пароль должен быть не менее 7 и не более 20 символов";
-        txtBoxPass.addEventListener('keyup', function(e) { //(e) =>
-            console.log(e.target.value.length);
-            if(e.target.value.length <= 20 && e.target.value.length >= 7){
-                if(txtBoxPass.nextElementSibling.className == "error_text"){
-                    //txtBoxPass.nextElementSibling.remove();
-                    const el = document.getElementById('errPass'); //IE
-                    parent.removeChild(el); //IE
-                    chPass = true;
-                    BtnLogin();
-                }
-            }
-            else{
-                //txtBoxPass.after(element);
-                txtBoxPass.insertAdjacentElement('afterend', element);
-                chPass = false;
+    function checkPass(e, element, id, txtBox) {
+        if(e.target.value.length <= 20 && e.target.value.length >= 7){
+            if(txtBox.nextElementSibling.id == id){
+                //txtBoxPass.nextElementSibling.remove();
+                const el = document.getElementById(id); //IE
+                parent.removeChild(el); //IE
+                ch.Pass = true;
                 BtnLogin();
             }
-        });
+        }
+        else{
+            //txtBoxPass.after(element);
+            txtBox.insertAdjacentElement('afterend', element);
+            ch.Pass = false;
+            BtnLogin();
+        }
     }
 
     //Обработчик кнопки
@@ -69,7 +67,8 @@ window.addEventListener('DOMContentLoaded', function() { //() =>
 
     //Проверка Кнопки
     function BtnLogin() {
-        if(chEmail == false || chPass == false){
+        console.log(ch);
+        if(ch.FIO == false || ch.Email == false || ch.Pass == false || ch.Pass2 == false){
             //btn.classList.toggle('hover');
             btn.classList.remove('hover');
             btn.setAttribute('disabled', true);
@@ -82,7 +81,19 @@ window.addEventListener('DOMContentLoaded', function() { //() =>
     }
 
     //Main
-    addErrorEmail();
-    addErrorPass();
     BtnLogin();
+
+    AddErrText(
+        "errEmail",
+        "Вы ввели неккоректный адрес электронной почты",
+        parent.querySelector('[data-login]'),
+        checkEmail
+    );
+
+    AddErrText(
+        "errPass",
+        "Пароль должен быть не менее 7 и не более 20 символов",
+        parent.querySelector('[data-password]'),
+        checkPass
+    );
 });
